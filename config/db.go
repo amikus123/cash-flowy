@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/amikus123/cash-flowy/model"
 	_ "github.com/joho/godotenv/autoload"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -27,7 +26,6 @@ func ConnectToDB() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&model.User{}, &model.ExpenseCategory{}, &model.User{})
-
 	DB = db
+
 }

@@ -37,6 +37,13 @@ func CreateExpense(c *gin.Context) {
 		Amount:      body.Amount,
 		CategoryID:  body.CategoryID,
 	}
-	config.DB.Create(&expense)
-	c.JSON(http.StatusCreated, &expense)
+	_, err := expense.Save()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, expense)
+
 }
