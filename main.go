@@ -12,5 +12,7 @@ func main() {
 
 	router := gin.New()
 	routes.ExpenseRoute(router)
+	routes.ExpenseCategoryRoute(router)
+
 	router.Run(":8080")
 }

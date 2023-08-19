@@ -1,20 +1,21 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/amikus123/cash-flowy/config"
-	"github.com/amikus123/cash-flowy/models"
+	"github.com/amikus123/cash-flowy/model"
 	"github.com/gin-gonic/gin"
 )
 
 type CreateExpenseBody struct {
-	Description string `json:"description" binding:"required"`
+	Description string  `json:"description" binding:"required"`
+	Amount      float64 `json:"amount" binding:"required"`
+	CategoryID  uint    `json:"categoryId" binding:"required"`
 }
 
 func GetExpenses(c *gin.Context) {
-	expenses := []models.Expense{}
+	expenses := []model.Expense{}
 	config.DB.Find(&expenses)
 	c.JSON(200, &expenses)
 }
@@ -30,6 +31,12 @@ func CreateExpense(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println(body)
-	c.JSON(http.StatusCreated, &body)
+
+	expense := model.Expense{
+		Description: body.Description,
+		Amount:      body.Amount,
+		CategoryID:  body.CategoryID,
+	}
+	config.DB.Create(&expense)
+	c.JSON(http.StatusCreated, &expense)
 }
