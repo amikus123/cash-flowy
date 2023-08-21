@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ExpenseCategoryRoute(router *gin.Engine) {
-	router.POST("/expnese-categories", controller.CreateExpenseCategory)
+func ExpenseCategoryRoute(r *gin.RouterGroup) {
+	r.POST("/expnese-categories", controller.CreateExpenseCategory)
 
 }

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"html"
 	"strings"
 	"time"
@@ -11,7 +12,6 @@ import (
 )
 
 type User struct {
-	gorm.Model
 	ID        uint   `json:"id" gorm:"primaryKey"`
 	Username  string `json:"username"`
 	Email     string `json:"email" gorm:"unique"`
@@ -38,4 +38,17 @@ func (u *User) BeforeSave(db *gorm.DB) error {
 	u.Username = html.EscapeString(strings.TrimSpace(u.Username))
 
 	return nil
+}
+
+func GetUserByID(uid uint) (User, error) {
+	var u User
+	if err := config.DB.First(&u, uid).Error; err != nil {
+		return u, errors.New("user not found")
+	}
+	u.PrepareGive()
+	return u, nil
+}
+
+func (u *User) PrepareGive() {
+	u.Password = ""
 }

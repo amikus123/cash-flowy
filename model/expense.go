@@ -4,12 +4,9 @@ import (
 	"time"
 
 	"github.com/amikus123/cash-flowy/config"
-	"gorm.io/gorm"
 )
 
 type Expense struct {
-	gorm.Model
-
 	ID          uint            `gorm:"primaryKey" json:"id"`
 	Description string          `json:"description"`
 	Amount      float64         `json:"amount"`

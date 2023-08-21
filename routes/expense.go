@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ExpenseRoute(router *gin.Engine) {
-	router.GET("/expenses", controller.GetExpenses)
-	router.GET("/expenses:id", controller.GetExpense)
-	router.POST("/expenses", controller.CreateExpense)
+func ExpenseRoute(r *gin.RouterGroup) {
+	r.GET("/expenses", controller.GetExpenses)
+	r.GET("/expenses:id", controller.GetExpense)
+	r.POST("/expenses", controller.CreateExpense)
 }
