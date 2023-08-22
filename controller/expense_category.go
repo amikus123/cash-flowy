@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/amikus123/cash-flowy/config"
 	"github.com/amikus123/cash-flowy/model"
 
 	"github.com/gin-gonic/gin"
@@ -27,5 +28,19 @@ func CreateExpenseCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, expenseCategory)
+
+}
+
+func GetExpenseCategories(c *gin.Context) {
+
+	expenseCatetegories := []model.ExpenseCategory{}
+	res := config.DB.Find(&expenseCatetegories)
+
+	if res.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": res.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, expenseCatetegories)
 
 }

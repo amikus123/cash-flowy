@@ -5,6 +5,7 @@ import (
 
 	"github.com/amikus123/cash-flowy/config"
 	"github.com/amikus123/cash-flowy/model"
+	"github.com/amikus123/cash-flowy/util/auth"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,8 +27,17 @@ func GetExpense(c *gin.Context) {
 }
 
 func CreateExpense(c *gin.Context) {
+
+	var err error
+
 	body := &CreateExpenseBody{}
 	if err := c.ShouldBindJSON(body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	u, err := auth.GetUserFromContect(c)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -36,8 +46,9 @@ func CreateExpense(c *gin.Context) {
 		Description: body.Description,
 		Amount:      body.Amount,
 		CategoryID:  body.CategoryID,
+		UserID:      u.ID,
 	}
-	_, err := expense.Save()
+	_, err = expense.Save()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -45,5 +56,28 @@ func CreateExpense(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, expense)
+
+}
+
+func GetAllUserExpenses(c *gin.Context) {
+
+	u, err := auth.GetUserFromContect(c)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	expenses, err := model.GetAllExpensesByUserID(u.ID)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+	c.JSON(http.StatusOK, expenses)
+}
+
+func UpdateExpense(c *gin.Context) {
+
+}
+
+func DeleteExpense(c *gin.Context) {
 
 }

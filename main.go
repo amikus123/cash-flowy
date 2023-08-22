@@ -11,7 +11,7 @@ import (
 
 func main() {
 	config.ConnectToDB()
-	config.DB.AutoMigrate(&model.User{}, &model.ExpenseCategory{}, &model.User{})
+	config.DB.AutoMigrate(&model.Expense{}, &model.ExpenseCategory{}, &model.User{})
 
 	r := gin.New()
 	public := r.Group("/api")

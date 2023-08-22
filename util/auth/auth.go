@@ -4,6 +4,7 @@ import (
 	"github.com/amikus123/cash-flowy/config"
 	"github.com/amikus123/cash-flowy/model"
 	"github.com/amikus123/cash-flowy/util/token"
+	"github.com/gin-gonic/gin"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -34,5 +35,16 @@ func LoginCheck(email string, password string) (string, error) {
 	}
 
 	return token, nil
+}
 
+func GetUserFromContect(c *gin.Context) (*model.User, error) {
+	user_id, err := token.ExtractTokenID(c)
+	if err != nil {
+		return &model.User{}, err
+	}
+	u, err := model.GetUserByID(user_id)
+	if err != nil {
+		return &model.User{}, err
+	}
+	return &u, nil
 }

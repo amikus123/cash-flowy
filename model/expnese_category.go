@@ -8,9 +8,9 @@ type ExpenseCategory struct {
 }
 
 func (e *ExpenseCategory) Save() (*ExpenseCategory, error) {
-	err := config.DB.Create(&e).Error
-	if err != nil {
+	if err := config.DB.Create(&e).Error; err != nil {
 		return &ExpenseCategory{}, err
 	}
+
 	return e, nil
 }

@@ -7,5 +7,6 @@ import (
 
 func ExpenseCategoryRoute(r *gin.RouterGroup) {
 	r.POST("/expnese-categories", controller.CreateExpenseCategory)
+	r.GET("/expnese-categories", controller.GetExpenseCategories)
 
 }
