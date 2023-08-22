@@ -19,9 +19,16 @@ type User struct {
 	CreatedAt time.Time
 }
 
-func (u *User) Save() (*User, error) {
+func (u *User) Create() (*User, error) {
 	err := config.DB.Create(u).Error
 	if err != nil {
+		return &User{}, err
+	}
+	return u, nil
+}
+
+func (u *User) Save() (*User, error) {
+	if err := config.DB.Save(u).Error; err != nil {
 		return &User{}, err
 	}
 	return u, nil

@@ -19,12 +19,34 @@ type Expense struct {
 	UpdatedAt   time.Time       `json:"updatedAt"`
 }
 
-func (e *Expense) Save() (*Expense, error) {
+func (e *Expense) Create() (*Expense, error) {
 	err := config.DB.Create(&e).Error
 	if err != nil {
 		return &Expense{}, err
 	}
 	return e, nil
+}
+func (u *Expense) Save() (*Expense, error) {
+	if err := config.DB.Save(u).Error; err != nil {
+		return &Expense{}, err
+	}
+	return u, nil
+}
+
+func (u *Expense) Delete() (*Expense, error) {
+	if err := config.DB.Delete(u).Error; err != nil {
+		return &Expense{}, err
+	}
+	return u, nil
+}
+
+func GetExpensesByID(expenseId uint) (Expense, error) {
+	expense := Expense{}
+	if err := config.DB.First(&expense, "id =?", expenseId).Error; err != nil {
+		return Expense{}, err
+	}
+	return expense, nil
+
 }
 
 func GetAllExpensesByUserID(userID uint) ([]Expense, error) {

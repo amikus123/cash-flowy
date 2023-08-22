@@ -46,7 +46,7 @@ func Register(c *gin.Context) {
 	}
 	u := model.User{Username: body.Username, Email: body.Email, Password: body.Password}
 
-	savedUser, err := u.Save()
+	savedUser, err := u.Create()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
