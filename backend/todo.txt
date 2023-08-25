@@ -1,9 +1,11 @@
 2. Expense Management:
-
+    // DONE
     Add new expenses with fields like date, category, amount, and description.
     Edit or update existing expenses.
     Delete expenses.
     Categorize expenses (e.g., food, transportation, entertainment).
+    
+    // FRONTEND
     View expenses in a list or grid format.
 
     3. Expense Insights and Reporting:
@@ -21,8 +23,6 @@
     7. Search and Filtering:
 
     Enable users to search for specific expenses using keywords or filters.
-
-
 
 
     !!! 9. Receipt Scanning:
